@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<!--
+	Future Imperfect by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="zh-CN">
+
+<head>
+    <title>{{ group['name'] }} | 墨韵 - 圈子</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="../static/assets/home/css/main.css"/>
+    <link rel="icon" href="{{ group['groupIcon'] }}" type="image/x-icon"/>
+</head>
+
+<body class="is-preload">
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- 消息闪现 -->
+    <div class="flask-info">
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </div>
+    <!-- Header -->
+    <header id="header">
+        <h1><a href="/home" style="font-family: 楷体,system-ui">墨 韵</a></h1>
+        <nav class="links">
+            <ul>
+                <li><a href="/home">主页</a></li>
+                <li><a href="/journalMenu">书评</a></li>
+                <li><a href="/bookMenu">书籍</a></li>
+                <li><a href="/groupMenu">圈子</a></li>
+                <li><a href="/message">消息</a></li>
+            </ul>
+        </nav>
+        <nav class="main">
+            <ul>
+                <li class="profile">
+                    <a class="image" href="/profile/{{ loginUser['id'] }}">
+                        <img src="{{ loginUser['profilePhoto'] }}" width="50%"
+                             style="margin-left: 25%;margin-top: 15%;border-radius: 50%;" alt="个人主页">
+                    </a>
+                </li>
+                <li class="search">
+                    <a class="fa-search" href="#search">Search</a>
+                    <form id="search" method="get" action="/search">
+                        <label>
+                            <input type="hidden" name="type" value="all">
+                            <input type="text" name="keyword" placeholder="搜索"/>
+                        </label>
+                    </form>
+                </li>
+                <li class="menu">
+                    <a class="fa-bars" href="#menu">Menu</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Menu -->
+    <section id="menu">
+        <!-- Links -->
+        <section>
+            <ul class="links">
+                <li>
+                    <h2>菜单</h2>
+                    <p>路漫漫其修远兮，吾将上下而求索</p>
+                </li>
+                <li>
+                    <a href="/editProfile">
+                        <h3>修改个人信息</h3>
+                        <p>完善个人信息，有助于你更快找到志趣相投的书友。</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/writeJournal"><h3>写书评</h3>
+                        <p>最近又看了什么新书？有什么感想？说出来吧。</p></a>
+                </li>
+                <li>
+                    <a href="/logout"><h3>退出账号</h3></a>
+                </li>
+            </ul>
+        </section>
+    </section>
+    <!-- Main -->
+    <div id="main">
+        <!-- Post -->
+        {% for discussion in discussions %}
+            <article class="post">
+                <header>
+                    <div class="title">
+                        <h2><a href="/discussion/{{ discussion['id'] }}">{{ discussion['title'] }}</a></h2>
+                    </div>
+                    <div class="meta">
+                        <span class="published">{{ discussion['postTime'].strftime('%Y-%m-%d %H:%M:%S') }}</span>
+                        <a href="/profile/{{ discussion['posterID'] }}" class="author">
+                            <span class="name">{{ discussion['account'] }}</span>
+                        </a>
+                    </div>
+                </header>
+                <p>{{ discussion['content'] }}</p>
+                <footer>
+                    <ul class="actions">
+                        <li><a href="/discussion/{{ discussion['id'] }}" class="button large">查看全部</a></li>
+                    </ul>
+                    <ul class="stats">
+                        <li><a href="/account/{{ discussion['posterID'] }}">{{ discussion['account'] }}</a></li>
+                        <li><i class="icon solid fa-comment">{{ discussion['repliesNum'] }}</i></li>
+                    </ul>
+                </footer>
+            </article>
+        {% endfor %}
+    </div>
+
+    <!-- Sidebar -->
+    <section id="sidebar">
+
+        <!-- Intro -->
+        <section id="intro">
+            <header>
+                <h2 style="font-family: 楷体,system-ui;">{{ group['name'] }}</h2>
+                <img src="{{ group['groupIcon'] }}" alt="{{ group['name'] }}_logo" width="200px" height="200px"
+                     style="border-radius: 10%;margin: 5%">
+
+                <p style="font-size: large">版主：
+                    <i style="font-weight: bold">
+                        <a href="/profile/{{ group['founderID'] }}">{{ group['account'] }}</a>
+                    </i>
+                </p>
+                <p style="font-size: large">创建时间：<i
+                        style="font-weight: bold">{{ group['establishTime'].strftime('%Y-%m-%d %H:%M:%S') }}</i></p>
+                <p style="font-size: large">板块介绍：<i style="font-weight: bold">{{ group['description'] }}</i></p>
+                <p style="font-size: large">身份：<i style="font-weight: bold">
+                    {% if loginUser['id']==group['founderID'] %}
+                        版主
+                    {% else %}
+                        普通用户
+                    {% endif %}
+                </i></p>
+            </header>
+        </section>
+
+        <section class="mini-posts">
+            <article class="mini-post">
+                <header>
+                    <h3><a href="/writeDiscussion/{{ group['id'] }}">发表新帖</a></h3>
+                    <p>来点大新闻吧</p>
+                </header>
+            </article>
+            {% if loginUser['id']==group['founderID'] %}
+                <article class="mini-post">
+                    <header>
+                        <h3><a href="/editGroup/{{ group['id'] }}">编辑圈子信息</a></h3>
+                        <p>仅限圈子创建者使用</p>
+                    </header>
+                </article>
+            {% endif %}
+        </section>
+
+        <!-- Posts List -->
+        <section>
+            <h2>最近回复</h2>
+            <ul class="posts">
+                {% for reply in replies %}
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/discussion/{{ reply['discussionID'] }}">{{ reply['account'] }}：{{ reply['content'] }}</a></h3>
+                                <time class="published"
+                                      datetime="2015-10-20">{{ reply['replyTime'].strftime('%Y-%m-%d %H:%M:%S') }}</time>
+                            </header>
+                            <a href="/profile/{{ reply['authorID'] }}"><img src="{{ reply['profilePhoto'] }}" style="border-radius: 10%;margin: 10px" width="50px" height="50px" ></a>
+                        </article>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- About -->
+        <section class="blurb">
+            <h2>关于</h2>
+            <p>墨韵是一个还在发展中的交流平台，您的宝贵意见将帮助我们更快进步。<br>您可通过以下方式与我们联系，感谢您的不吝指正。
+            </p>
+            <ul class="icons">
+                <li><a title="dreamzhl@mail.ynu.edu.cn" class="icon solid fa-envelope"></a></li>
+                <li><a href="https://github.com/Steven-Zhl/MoYun" class="icon brands fa-github"></a></li>
+            </ul>
+            <p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>. Images:
+                <a href="https://unsplash.com">Unsplash</a>.
+            </p>
+        </section>
+    </section>
+</div>
+
+<!-- Scripts -->
+<script src="../static/assets/home/js/jquery.min.js"></script>
+<script src="../static/assets/home/js/browser.min.js"></script>
+<script src="../static/assets/home/js/breakpoints.min.js"></script>
+<script src="../static/assets/home/js/util.js"></script>
+<script src="../static/assets/home/js/main.js"></script>
+
+</body>
+
+</html>

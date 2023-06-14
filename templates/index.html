@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<!--
+	Dimension by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="zh-CN">
+
+<head>
+    <title>墨韵</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="../static/assets/index/css/main.css"/>
+    <link rel="icon" href="../static/logo/logo_320x320_colorful.png" type="image/x-icon"/>
+    <noscript>
+        <link rel="stylesheet" href="../static/assets/index/css/noscript.css"/>
+    </noscript>
+</head>
+
+<body class="is-preload">
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- 消息闪现 -->
+    <div class="flask-info">
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </div>
+    <!-- Header -->
+    <header id="header">
+
+        <div class="logo">
+            <span class="icon fa-bookmark"></span>
+        </div>
+
+        <div class="content">
+            <div class="inner">
+                <h1>“墨韵”读书分享平台</h1>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#intro">简介</a></li>
+                <li><a href="#work">工作内容</a></li>
+                <li><a href="#login">登录</a></li>
+                <li><a href="#register">注册</a></li>
+                <li><a href="#findPasswd">找回密码</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <div id="main">
+        <!-- Intro -->
+        <article id="intro">
+            <h2 class="major">简介</h2>
+            <span class="image main"><img src="../static/images/index/intro.png" alt="introduction"/></span>
+            <p>“墨韵”是一个在线读书分享交流平台，以方便师生线上交流读书心得为目的而创立。</p>
+            <p>同时这也是我们小组的软件工程实习任务。</p>
+            <p>如果您对我们的工作内容感兴趣，想了解我们都做了些什么，可以点击👉<a href="#work">工作内容</a>👈了解更多。</p>
+            <p>如果觉得做的还不错的话，可以给我们的<a href="https://github.com/Steven-Zhl/MoYun">Github Repo</a>点一个Star⭐
+            </p>
+        </article>
+
+        <!-- Work -->
+        <article id="work">
+            <h2 class="major">工作内容</h2>
+            <span class="image main"><img src="../static/images/index/work.png" alt="work"/></span>
+            <p>
+                工作内容主要包括：构造、设计数据模型；使用Flask处理路由请求和错误渲染；把2个公开的HTML5模板修改为Jinja2模板，并使用JavaScript实现部分页面的Ajax需求</p>
+            <h3>技术栈</h3>
+            <h4>前端</h4>
+            <ul>
+                <li>HTML5</li>
+                <li>CSS3</li>
+                <li>JavaScript(Ajax)</li>
+                <li>Jinja2</li>
+            </ul>
+            <h4>后端</h4>
+            <ul>
+                <li>Python 3.11.3</li>
+                <li>Flask</li>
+                <li>MySQL(pymysql)</li>
+            </ul>
+        </article>
+
+        <!-- Login -->
+        <article id="login">
+            <h2 class="major">登录</h2>
+            <span class="image main"><img src="../static/images/index/login.png" alt="login"/></span>
+            <form method="post" action="/">
+                <div class="login field">
+                    <label for="account">账号/Account:</label>
+                    <input type="text" name="account" id="account"/>
+                </div>
+                <div class="password field">
+                    <label for="password">密码/Password:</label>
+                    <input type="password" name="password" id="password"/>
+                </div>
+                <div class="actions">
+                    <br>
+                    <input type="submit" value="登录" class="primary"/>
+                    <input type="reset" value="清空"/>
+                </div>
+            </form>
+            <p><a href="#findPasswd">忘记密码？</a></p>
+        </article>
+
+        <!-- Register -->
+        <article id="register">
+            <h2 class="major">注册</h2>
+            <span class="image main"><img src="../static/images/index/register.png" alt="register"/></span>
+            <form method="post" action="/register">
+                <p>欢迎加入 墨韵 ，共同交流读书心得！</p>
+                <div class="account field">
+                    <label for="account">账号/Account:</label>
+                    <input type="text" name="account" id="account"/>
+                </div>
+                <div class="password field">
+                    <label for="password">密码/Password:</label>
+                    <input type="password" name="password" id="password"/>
+                </div>
+                <div class="email field">
+                    <label for="email">电子邮箱/E-mail:</label>
+                    <input type="email" name="email" id="email"/>
+                </div>
+                <div class="telephone field">
+                    <label for="telephone">联系电话/Tel:</label>
+                    <input type="tel" name="telephone" id="telephone"/>
+                </div>
+                <div class="actions" style="margin: 10px">
+                    <br>
+                    <input type="submit" value="注册" class="primary"/>
+                    <input type="reset" value="清空"/>
+                </div>
+            </form>
+        </article>
+
+        <!-- Find Password -->
+        <article id="findPasswd">
+            <h2 class="major">找回密码</h2>
+            <span class="image main"><img src="../static/images/index/findPasswd.png" alt="findPasswd"/></span>
+            <form method="post" id="sendCaptcha" action="/sendCaptcha">
+                <p>我们将会向您的预留邮箱发送一条验证码，请注意查收。</p>
+                <div class="account field">
+                    <label for="account">账号/Account:</label>
+                    <input type="text" name="account" id="account"/>
+                </div>
+                <div class="actions">
+                    <br>
+                    <input type="submit" value="获取验证码" class="primary"/>
+                </div>
+            </form>
+        </article>
+
+        <!-- Reset Password -->
+        <article id="resetPasswd">
+            <span class="image main"><img src="../static/images/index/findPasswd.png" alt="findPasswd"/></span>
+            <form method="post" action="/resetPasswd">
+                <div>
+                    <label for="password">验证码/Captcha:</label>
+                    <label for="captcha"></label><input type="text" name="captcha" id="captcha"/>
+                </div>
+                <div class="password field">
+                    <label for="password">新密码/New Password:</label>
+                    <input type="password" name="password" id="password"/>
+                </div>
+                <div class="actions">
+                    <br>
+                    <input type="submit" value="修改密码" class="primary" id=""/>
+                </div>
+            </form>
+        </article>
+
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <p>Github Repo:<a href="https://github.com/Steven-Zhl/MoYun">MoYun</a></p>
+    </footer>
+</div>
+
+<!-- BG -->
+<div id="bg"></div>
+
+<!-- Scripts -->
+<script src="../static/assets/index/js/jquery.min.js"></script>
+<script src="../static/assets/index/js/browser.min.js"></script>
+<script src="../static/assets/index/js/breakpoints.min.js"></script>
+<script src="../static/assets/index/js/util.js"></script>
+<script src="../static/assets/index/js/main.js"></script>
+
+</body>
+
+</html>

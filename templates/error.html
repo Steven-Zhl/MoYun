@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<!--
+	Future Imperfect by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="zh-CN">
+<head>
+    <title>{{ errorCode }} Error | 墨韵</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="../static/assets/home/css/main.css"/>
+    <link rel="icon" href="../static/logo/logo_320x320_dark.png" type="image/x-icon"/>
+</head>
+<body class="single is-preload">
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Header -->
+    <header id="header">
+        <h1><a href="/home" style="font-family: 楷体,system-ui">墨 韵</a></h1>
+        <nav class="links">
+            <ul>
+                <li><a href="/home">主页</a></li>
+                <li><a href="/journalMenu">书评</a></li>
+                <li><a href="/bookMenu">书籍</a></li>
+                <li><a href="/groupMenu">圈子</a></li>
+                <li><a href="/message">消息</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <div id="main">
+
+        <!-- Post -->
+        <article class="post">
+            <header>
+                <div class="title">
+                    <h2>{{ content['title'] }}</h2>
+                    <p>{{ content['title_en'] }}</p>
+                </div>
+                <div class="meta">
+                    <time class="published" datetime="{{ content['publishTime'] }}">{{ content['publishTime'] }}</time>
+                    <a href="/profile/{{ author['id'] }}" class="author">
+                        <span class="name">{{ author['account'] }}</span>
+                        <img src="{{ profilePhoto }}" alt="头像"/>
+                    </a>
+                </div>
+            </header>
+            <span><img src="{{ errorImage }}" alt="{{ errorCode }}_提示图" width="50%"/></span>
+            {% for para in content['content'].split('\n') %}
+                <p style="font-family: 楷体,system-ui;font-size: larger">{{ para }}</p>
+            {% endfor %}
+            <footer>
+                <ul class="icons">
+                    <li>如您想了解更多相关内容，请点击：</li>
+                    <li><a href="{{ content['referenceLink'] }}" class="icon brands fa-firefox"
+                           title="Mozilla在线文档"></a></li>
+                </ul>
+            </footer>
+            <footer>
+                <ul class="icons">
+                    <li>联系我们：</li>
+                    <li><a title="dreamzhl@mail.ynu.edu.cn" class="icon solid fa-envelope"></a></li>
+                    <li><a href="https://github.com/Steven-Zhl/MoYun" class="icon brands fa-github"></a></li>
+                </ul>
+            </footer>
+        </article>
+    </div>
+
+    <!-- About -->
+    <section class="blurb">
+        <h2>关于</h2>
+        <p>墨韵是一个还在发展中的交流平台，您的宝贵意见将帮助我们更快进步。<br>您可通过以下方式与我们联系，感谢您的不吝指正。
+        </p>
+        <ul class="icons">
+            <li><a title="dreamzhl@mail.ynu.edu.cn" class="icon solid fa-envelope"></a></li>
+            <li><a href="https://github.com/Steven-Zhl/MoYun" class="icon brands fa-github"></a></li>
+        </ul>
+        <p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>. Images:
+            <a href="https://unsplash.com">Unsplash</a>.
+        </p>
+    </section>
+
+</div>
+<!-- Scripts -->
+<script src="../static/assets/home/js/jquery.min.js"></script>
+<script src="../static/assets/home/js/browser.min.js"></script>
+<script src="../static/assets/home/js/breakpoints.min.js"></script>
+<script src="../static/assets/home/js/util.js"></script>
+<script src="../static/assets/home/js/main.js"></script>
+</body>
+</html>

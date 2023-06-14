@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<!--
+	Future Imperfect by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="zh-CN">
+
+<head>
+    <title>{{ discussion['title'] }} | 墨韵 - 帖子</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="../static/assets/home/css/main.css"/>
+    <link rel="icon" href="../static/logo/logo_320x320_dark.png" type="image/x-icon"/>
+</head>
+
+<body class="single is-preload">
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- 消息闪现 -->
+    <div class="flask-info" id="flask-info">
+        {% for message in get_flashed_messages() %}
+            <div class="alert" id="flask-info-content">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </div>
+    <!-- Header -->
+    <header id="header">
+        <h1><a href="/home" style="font-family: 楷体,system-ui">墨 韵</a></h1>
+        <nav class="links">
+            <ul>
+                <li><a href="/home">主页</a></li>
+                <li><a href="/journalMenu">书评</a></li>
+                <li><a href="/bookMenu">书籍</a></li>
+                <li><a href="/groupMenu">圈子</a></li>
+                <li><a href="/message">消息</a></li>
+            </ul>
+        </nav>
+        <nav class="main">
+            <ul>
+                <li class="profile">
+                    <a class="image" href="/profile/{{ loginUser['id'] }}">
+                        <img src="{{ loginUser['profilePhoto'] }}" width="50%"
+                             style="margin-left: 25%;margin-top: 15%;border-radius: 50%;" alt="个人主页">
+                    </a>
+                </li>
+                <li class="search">
+                    <a class="fa-search" href="#search">Search</a>
+                    <form id="search" method="get" action="/search">
+                        <label>
+                            <input type="hidden" name="type" value="all">
+                            <input type="text" name="keyword" placeholder="搜索"/>
+                        </label>
+                    </form>
+                </li>
+                <li class="menu">
+                    <a class="fa-bars" href="#menu">Menu</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Menu -->
+    <section id="menu">
+        <!-- Links -->
+        <section>
+            <ul class="links">
+                <li>
+                    <h2>菜单</h2>
+                    <p>路漫漫其修远兮，吾将上下而求索</p>
+                </li>
+                <li>
+                    <a href="/editProfile">
+                        <h3>修改个人信息</h3>
+                        <p>完善个人信息，有助于你更快找到志趣相投的书友。</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/writediscussion"><h3>写书评</h3>
+                        <p>最近又看了什么新书？有什么感想？说出来吧。</p></a>
+                </li>
+                <li>
+                    <a href="/logout"><h3>退出账号</h3></a>
+                </li>
+            </ul>
+        </section>
+    </section>
+    <!-- Main -->
+    <div id="main">
+
+        <!-- Post -->
+        <article class="post">
+            <header>
+                <div class="title">
+                    <h2><a href="/discussion/{{ discussion['id'] }}">{{ discussion['title'] }}</a></h2>
+                </div>
+                <div class="meta">
+                    <span class="published">{{ discussion['postTime'].strftime('%Y-%m-%d') }}</span>
+                    <a href="/profile/{{ author['id'] }}" class="author">
+                        <span class="name">{{ author['account'] }}</span>
+                    </a>
+                </div>
+            </header>
+
+            <!-- content -->
+            <span class="content">
+                <p style="font-family: 楷体,system-ui;font-size: larger;font-weight: bold">{{ discussion['content'] }}</p>
+            </span>
+        </article>
+
+        <!-- WriteReply -->
+        <label>
+            <textarea name="newReply" placeholder="发表回帖"></textarea>
+        </label>
+        <button type="button" id="addReply" onclick="addReply()">发布</button>
+        <br><br>
+
+        <!-- Replies -->
+        <section>
+            <ul class="posts" id="replies">
+                {% for reply in discussionReplies %}
+                    <li>
+                        <article>
+                            <header>
+                                <h3>{{ reply['content'] }}</h3>
+                                <span class="published">{{ reply['replyTime'].strftime('%Y-%m-%d %H:%M:%S') }}</span>
+                            </header>
+                            <a href="/profile/{{ reply['authorID'] }}" class="image">
+                                <img src="{{ reply['profilePhoto'] }}" title="{{ reply['account'] }}"
+                                     style="border-radius: 10%;" alt="{{ reply['account'] }}_头像"/>
+                            </a>
+                        </article>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+
+    <!-- About -->
+    <footer class="blurb">
+        <h2>关于</h2>
+        <p>墨韵是一个还在发展中的交流平台，您的宝贵意见将帮助我们更快进步。<br>您可通过以下方式与我们联系，感谢您的不吝指正。
+        </p>
+        <ul class="icons">
+            <li><a title="dreamzhl@mail.ynu.edu.cn" class="icon solid fa-envelope"></a></li>
+            <li><a href="https://github.com/Steven-Zhl/MoYun" class="icon brands fa-github"></a></li>
+        </ul>
+        <p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>. Images:
+            <a href="https://unsplash.com">Unsplash</a>.
+        </p>
+    </footer>
+</div>
+
+<!-- Scripts -->
+<script src="../static/assets/home/js/jquery.min.js"></script>
+<script src="../static/assets/home/js/browser.min.js"></script>
+<script src="../static/assets/home/js/breakpoints.min.js"></script>
+<script src="../static/assets/home/js/util.js"></script>
+<script src="../static/assets/home/js/main.js"></script>
+<script type="text/javascript">
+    function addReply() {
+        $.ajax({
+            type: 'POST',
+            url: '/discussion/{{ discussion['id'] }}',
+            dataType: 'json',
+            data: {
+                'replyUserID': '{{ loginUser['id'] }}',
+                'replyContent': $('textarea[name="newReply"]').val(),
+                'discussionID': '{{ discussion['id'] }}'
+            },
+            // 如果reply为空，则不发送请求
+            beforeSend: function () {
+                if ($('textarea[name="newReply"]').val() === '') {
+                    document.getElementById('flask-info').innerHTML = '评论不能为空'
+                    return false
+                }
+            },
+            success: function (response) {
+                const newReplyElement = document.createElement('li');
+                newReplyElement.innerHTML = '<article><header><h3>' + response.replyContent + '</h3><span class="published">' + response.replyTime + '</span></header><a href="/profile/' + response.authorID + '" class="image"><img src="' + response.authorProfilePhoto + '" title="' + response.account + '"style="border-radius: 10%;" alt="' + response.account + '_头像"/></a></article>';
+                document.getElementById('replies').append(newReplyElement)
+                document.getElementsByName('newReply')[0].value = '';
+                const flaskInfo = document.getElementById('flask-info');
+                flaskInfo.childNodes[0].nodeValue = '评论成功';
+            }
+        })
+    }
+</script>
+</body>
+
+</html>

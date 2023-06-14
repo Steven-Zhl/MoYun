@@ -1,0 +1,46 @@
+#数据库配置(目前仅可用MySQL)
+Database:
+  Type: "MySQL" # 数据库类型
+  Driver: "pymysql" # 数据库驱动
+  Host: "localhost" # 数据库地址
+  Port: 3306 # 数据库端口
+  Database: "MoYun" #数据库名
+  Account: "MoYun_Admin" # 数据库管理员账号
+  Password: "MoYun_Admin" # 数据库管理员密码
+
+# 平台管理员账号
+Admin:
+  Account: "MoYun_Admin" # 管理员账号
+  Password: "MoYun_Admin" # 管理员密码
+  ID: 1 # 管理员ID，一般1号用户为管理员
+  # 以下是profile页的一些外显的个人信息，不写的留空即可
+  E-Mail: ""
+  Telephone: ""
+  Signature: "道阻且长" # 管理员签名
+  ProfilePhoto: "" # 请在此指定管理员头像的路径
+
+# 邮箱服务配置
+E-Mail:
+  Host: "" # smtp邮箱服务器，如“smtp.126.com”
+  Port: 465 # smtp端口，常用的有25和465
+  Username: "" # 发件人邮箱账号，如“moyun”
+  Password: "" # 发件人SMTP密钥(通常不是邮箱密码，而是邮箱服务商提供的一串密钥)
+  Sender: "" # 完整邮箱，如“moyun@126.com”
+
+# Flask配置
+Flask:
+  SECRET_KEY: "MoYun" # Flask混淆密钥，用于session加密
+  JSON_AS_ASCII: False # Flask返回json时是否使用ascii编码，False才可保证中文不乱码
+  PERMANENT_SESSION_LIFETIME: 86400 # session有效期，单位秒，默认1天
+  Port: 5000 # Flask运行端口，默认5000
+
+# 项目路径配置(如不修改项目结构，则无需修改)
+Path:
+  TemplateFolder: "/templates" # 模板文件夹
+  StaticFolder: "/static" # 静态资源文件夹
+  StoragePath: "/static" # 存储文件夹，默认与静态资源共用同一个文件夹
+# API配置
+YiketianqiAPI:
+  version: "v61"
+  appid: ""
+  appsecret: ""

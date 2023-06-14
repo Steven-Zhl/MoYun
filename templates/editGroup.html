@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<!--
+	Future Imperfect by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="zh-CN">
+
+<head>
+    <title>{{ group['name'] }} | 墨韵 - 圈子信息修改</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="../static/assets/home/css/main.css"/>
+    <link rel="icon" href="{{ group['groupIcon'] }}" type="image/x-icon"/>
+</head>
+
+<body class="is-preload">
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- 消息闪现 -->
+    <div class="flask-info">
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </div>
+    <!-- Header -->
+    <header id="header">
+        <h1><a href="/home" style="font-family: 楷体,system-ui">墨 韵</a></h1>
+        <nav class="links">
+            <ul>
+                <li><a href="/home">主页</a></li>
+                <li><a href="/journalMenu">书评</a></li>
+                <li><a href="/bookMenu">书籍</a></li>
+                <li><a href="/groupMenu">圈子</a></li>
+                <li><a href="/message">消息</a></li>
+            </ul>
+        </nav>
+        <nav class="main">
+            <ul>
+                <li class="profile">
+                    <a class="image" href="/profile/{{ loginUser['id'] }}">
+                        <img src="{{ loginUser['profilePhoto'] }}" width="50%"
+                             style="margin-left: 25%;margin-top: 15%;border-radius: 50%;" alt="个人主页">
+                    </a>
+                </li>
+                <li class="search">
+                    <a class="fa-search" href="#search">Search</a>
+                    <form id="search" method="get" action="/search">
+                        <label>
+                            <input type="hidden" name="type" value="all">
+                            <input type="text" name="keyword" placeholder="搜索"/>
+                        </label>
+                    </form>
+                </li>
+                <li class="menu">
+                    <a class="fa-bars" href="#menu">Menu</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Menu -->
+    <section id="menu">
+        <!-- Links -->
+        <section>
+            <ul class="links">
+                <li>
+                    <h2>菜单</h2>
+                    <p>路漫漫其修远兮，吾将上下而求索</p>
+                </li>
+                <li>
+                    <a href="/editProfile">
+                        <h3>修改个人信息</h3>
+                        <p>完善个人信息，有助于你更快找到志趣相投的书友。</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/writeJournal"><h3>写书评</h3>
+                        <p>最近又看了什么新书？有什么感想？说出来吧。</p></a>
+                </li>
+                <li>
+                    <a href="/logout"><h3>退出账号</h3></a>
+                </li>
+            </ul>
+        </section>
+    </section>
+    <!-- Main -->
+    <div id="main">
+        <!-- Post -->
+        {% for discussion in discussions %}
+            <article class="post" id="{{ discussion['id'] }}">
+                <header>
+                    <div class="title">
+                        <h2><a href="/discussion/{{ discussion['id'] }}">{{ discussion['title'] }}</a></h2>
+                    </div>
+                    <div class="meta">
+                        <span class="published">{{ discussion['postTime'].strftime('%Y-%m-%d %H:%M:%S') }}</span>
+                        <a href="/profile/{{ discussion['posterID'] }}" class="author">
+                            <span class="name">{{ discussion['account'] }}</span>
+                        </a>
+                    </div>
+                </header>
+                <p>{{ discussion['content'] }}</p>
+                <footer>
+                    <ul class="actions">
+                        <li><a onclick="deleteDiscussion({{ discussion['id'] }})" class="button large">删除帖子</a></li>
+                    </ul>
+                    <ul class="stats">
+                        <li><a href="/account/{{ discussion['posterID'] }}">{{ discussion['account'] }}</a></li>
+                        <li><i class="icon solid fa-comment">{{ discussion['repliesNum'] }}</i></li>
+                    </ul>
+                </footer>
+            </article>
+        {% endfor %}
+    </div>
+    <!-- Sidebar -->
+    <section id="sidebar">
+        <!-- Intro -->
+        <section id="intro">
+            <header>
+                <form enctype="multipart/form-data" action="/editGroup/{{ group['id'] }}" method="post">
+                    <input type="hidden" name="operation" value="editGroupInfo">
+                    <input type="text" name="groupName"
+                           style="font-family: 楷体,system-ui;font-size: x-large;margin: 10px"
+                           placeholder="圈子名称" value="{{ group['name'] }}">
+                    <img src="{{ group['groupIcon'] }}" alt="大学牲摸鱼组_logo" width="200px" height="200px"
+                         style="border-radius: 10%;margin: 10px">
+                    <input type="file" name="groupIcon" multiple="multiple" style="margin: 10px" placeholder="上传图片">
+
+                    <p style="font-size: large;margin: 10px">版主：<a
+                            href="/profile/{{ group['founderID'] }}">{{ group['account'] }}</a></p>
+                    <p style="font-size: large">创建时间：{{ group['establishTime'].strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    <input type="text" name="groupDescription" style="margin: 10px" value="{{ group['description'] }}"
+                           placeholder="圈子简介">
+                    <input type="submit" value="提交">
+                </form>
+            </header>
+        </section>
+        <section id="member">
+            <h2>当前成员：</h2>
+            <!-- Post -->
+            {% for user in groupUsers %}
+                <article class="mini-post">
+                    <header>
+                        <h2><a href="/profile/{{ user['userID'] }}">{{ user['account'] }}</a></h2>
+                        <time class="published"
+                              datetime="2015-10-17">加入时间：{{ user['joinTime'].strftime('%Y-%m-%d %H:%M:%S') }}</time>
+
+                        <a href="/profile/{{ user['userID'] }}" class="author">
+                            <img src="{{ user['profilePhoto'] }}" alt="{{ user['account'] }}_头像">
+                        </a>
+                    </header>
+                </article>
+            {% endfor %}
+        </section>
+        <!-- About -->
+        <section class="blurb">
+            <h2>关于</h2>
+            <p>墨韵是一个还在发展中的交流平台，您的宝贵意见将帮助我们更快进步。<br>您可通过以下方式与我们联系，感谢您的不吝指正。
+            </p>
+            <ul class="icons">
+                <li><a title="dreamzhl@mail.ynu.edu.cn" class="icon solid fa-envelope"></a></li>
+                <li><a href="https://github.com/Steven-Zhl/MoYun" class="icon brands fa-github"></a></li>
+            </ul>
+            <p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>. Images:
+                <a href="https://unsplash.com">Unsplash</a>.
+            </p>
+        </section>
+    </section>
+</div>
+
+<!-- Scripts -->
+<script src="../static/assets/home/js/jquery.min.js"></script>
+<script src="../static/assets/home/js/browser.min.js"></script>
+<script src="../static/assets/home/js/breakpoints.min.js"></script>
+<script src="../static/assets/home/js/util.js"></script>
+<script src="../static/assets/home/js/main.js"></script>
+<script>
+    function deleteDiscussion(discussionID) {
+        $.ajax({
+            url: '/editGroup/{{ group["id"] }}',
+            type: 'POST',
+            data: {
+                operation: 'deleteDiscussion',
+                discussionID: discussionID
+            },
+            success: function (response) {
+                if (response['status'] === 'success') {
+                    alert('删除成功');
+                    var element = document.getElementById(discussionID);
+                    element.parentNode.removeChild(element);
+                } else {
+                    alert('删除失败');
+                }
+            }
+        })
+    }
+
+    function submitGroupInfo() {
+        var groupName = document.getElementsByName('groupName')[0].value;
+        var groupIcon = document.getElementsByName('groupIcon')[0].files[0];
+        var formData = new FormData();
+        formData.append('groupIcon', groupIcon);
+        var groupDescription = document.getElementsByName('description')[0].value;
+        $.ajax({
+            url: '/editGroup/{{ group["id"] }}',
+            type: 'POST',
+            contentType: false, // 不要设置Content-Type请求头
+            data: {
+                operation: 'editGroupInfo',
+                groupName: groupName,
+                groupIcon: formData,
+                groupDescription: groupDescription
+            }
+        })
+    }
+</script>
+</body>
+
+</html>

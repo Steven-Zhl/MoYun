@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<!--
+	Future Imperfect by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="zh-CN">
+
+<head>
+    <title>{{ book['title'] }} | 墨韵 - 书籍</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="../static/assets/home/css/main.css"/>
+    <link rel="icon" href="../static/logo/logo_320x320_dark.png" type="image/x-icon"/>
+</head>
+
+<body class="single is-preload">
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- 消息闪现 -->
+    <div class="flask-info">
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </div>
+    <!-- Header -->
+    <header id="header">
+        <h1><a href="/home" style="font-family: 楷体,system-ui">墨 韵</a></h1>
+        <nav class="links">
+            <ul>
+                <li><a href="/home">主页</a></li>
+                <li><a href="/journalMenu">书评</a></li>
+                <li><a href="/bookMenu">书籍</a></li>
+                <li><a href="/groupMenu">圈子</a></li>
+                <li><a href="/message">消息</a></li>
+            </ul>
+        </nav>
+        <nav class="main">
+            <ul>
+                <li class="profile">
+                    <a class="image" href="/profile/{{ loginUser['id'] }}">
+                        <img src="{{ loginUser['profilePhoto'] }}" width="50%"
+                             style="margin-left: 25%;margin-top: 15%;border-radius: 50%;" alt="个人主页">
+                    </a>
+                </li>
+                <li class="search">
+                    <a class="fa-search" href="#search">Search</a>
+                    <form id="search" method="get" action="/search">
+                        <label>
+                            <input type="hidden" name="type" value="all">
+                            <input type="text" name="keyword" placeholder="搜索"/>
+                        </label>
+                    </form>
+                </li>
+                <li class="menu">
+                    <a class="fa-bars" href="#menu">Menu</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Menu -->
+    <section id="menu">
+        <!-- Links -->
+        <section>
+            <ul class="links">
+                <li>
+                    <h2>菜单</h2>
+                </li>
+
+                <li>
+                    <a href="/editProfile">
+                        <h3>修改个人信息</h3>
+                        <p>完善个人信息，有助于你更快找到志趣相投的书友。</p>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="/writeJournal">
+                        <h3>写书评</h3>
+                        <p>最近又看了什么新书？有什么感想？说出来吧。</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <h3>Feugiat veroeros</h3>
+                        <p>Phasellus sed ultricies mi congue</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <h3>Etiam sed consequat</h3>
+                        <p>Porta lectus amet ultricies</p>
+                    </a>
+                </li>
+            </ul>
+        </section>
+    </section>
+
+    <!-- Main -->
+    <div id="main">
+
+        <!-- Post -->
+        <article class="post">
+            <header>
+                <div class="title">
+                    <h2 style="font-family: 楷体,system-ui;font-weight: bold">{{ book['title'] }}</h2>
+                    {% if book['originTitle'] %}
+                        <h3 style="font-family: 楷体,system-ui;font-weight: bold">{{ book['originTitle'] }}</h3>
+                    {% endif %}
+                    {% if book['subtitle'] %}
+                        <h3 style="font-family: 楷体,system-ui;font-weight: bold">{{ book['subtitle'] }}</h3>
+                    {% endif %}
+                    <h2 style="font-family: 楷体,system-ui;font-weight: bold">{{ book['author'] }}</h2>
+                </div>
+                <div class="meta">
+                    <a href="https://book.douban.com/subject/{{ book['doubanID'] }}">
+                        <img src="{{ bookCover }}" style="horiz-align: center;border-radius: 5%;width: 150px"
+                             alt="{{ book['title'] }}_封面">
+                    </a>
+                </div>
+            </header>
+
+            <span class="mini-posts">
+                    <span class="intro" style="margin: 10px;border: 1px;align-content: center">
+                        <table style="margin: 10px;horiz-align: center">
+                            <tr>
+                                <td>标题</td>
+                                <td>{{ book['title'] }}</td>
+                            </tr>
+                            {% if book['subtitle'] %}
+                                <tr>
+                                <td>副标题</td>
+                                <td>{{ book['subtitle'] }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if book['originTitle'] %}
+                                <tr>
+                                <td>原标题</td>
+                                <td>{{ book['originTitle'] }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <td>作者</td>
+                                <td>{{ book['author'] }}</td>
+                            </tr>
+                            <tr>
+                                <td>页数</td>
+                                <td>{{ book['page'] }}</td>
+                            </tr>
+                            <tr>
+                                <td>出版社</td>
+                                <td>{{ book['publisher'] }}</td>
+                            </tr>
+                            <tr>
+                                <td>出版日期</td>
+                                <td>{{ book['publishDate'] }}</td>
+                            </tr>
+                            <tr>
+                                <td>豆瓣评分</td>
+                                <td><a href="https://book.douban.com/subject/{{ book['doubanID'] }}">{{ book['doubanScore'] }}</a></td>
+                            </tr>
+                            <tr>
+                                <td>类型</td>
+                                <td>{{ book['type'] }}</td>
+                            </tr>
+                            <tr>
+                                <td>ISBN</td>
+                                <td>{{ book['isbn'] }}</td>
+                            </tr>
+                        </table>
+                    </span>
+                    <span class="intro" style="margin: 10px;border: 1px">
+                        {% for p in book['description'].split('\n') %}
+                            <p>{{ p }}</p>
+                        {% endfor %}
+                    </span>
+
+                </span>
+        </article>
+
+    </div>
+    <!-- Sidebar -->
+    <section id="sidebar">
+
+
+        <!-- Mini Posts -->
+        <section>
+            <div class="mini-posts">
+                <!-- Mini Post -->
+                <article class="mini-post">
+                    <header>
+                        <h3><a href="/writeJournal">写书评</a></h3>
+                        <p>有些想法？表达出来吧</p>
+                    </header>
+                </article>
+
+                <!-- Mini Post -->
+                <article class="mini-post">
+                    <header>
+                        <h3><a href="/search?type=journal&keyword={{ book['title'] }}">相关书评</a></h3>
+                        <p>看看其他人怎么评价的吧</p>
+                    </header>
+                </article>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section class="blurb">
+            <h2>关于</h2>
+            <p>墨韵是一个还在发展中的交流平台，您的宝贵意见将帮助我们更快进步。<br>您可通过以下方式与我们联系，感谢您的不吝指正。
+            </p>
+            <ul class="icons">
+                <li><a title="dreamzhl@mail.ynu.edu.cn" class="icon solid fa-envelope"></a></li>
+                <li><a href="https://github.com/Steven-Zhl/MoYun" class="icon brands fa-github"></a></li>
+            </ul>
+            <p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>. Images:
+                <a href="https://unsplash.com">Unsplash</a>.
+            </p>
+        </section>
+    </section>
+    <!-- About -->
+    <footer class="blurb">
+        <h2>关于</h2>
+        <p>墨韵是一个还在发展中的交流平台，您的宝贵意见将帮助我们更快进步。<br>您可通过以下方式与我们联系，感谢您的不吝指正。
+        </p>
+        <ul class="icons">
+            <li><a title="dreamzhl@mail.ynu.edu.cn" class="icon solid fa-envelope"></a></li>
+            <li><a href="https://github.com/Steven-Zhl/MoYun" class="icon brands fa-github"></a></li>
+        </ul>
+        <p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>. Images:
+            <a href="https://unsplash.com">Unsplash</a>.
+        </p>
+    </footer>
+</div>
+
+<!-- Scripts -->
+<script src="../static/assets/home/js/jquery.min.js"></script>
+<script src="../static/assets/home/js/browser.min.js"></script>
+<script src="../static/assets/home/js/breakpoints.min.js"></script>
+<script src="../static/assets/home/js/util.js"></script>
+<script src="../static/assets/home/js/main.js"></script>
+
+</body>
+
+</html>

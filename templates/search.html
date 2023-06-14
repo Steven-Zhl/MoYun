@@ -1,0 +1,236 @@
+<!DOCTYPE HTML>
+<!--
+	Future Imperfect by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="zh-CN">
+
+<head>
+    <title>{{ keyword }} | 墨韵 - 搜索结果</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="../static/assets/home/css/main.css"/>
+    <link rel="icon" href="../static/logo/logo_320x320_dark.png" type="image/x-icon"/>
+</head>
+
+<body class="is-preload">
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- 消息闪现 -->
+    <div class="flask-info">
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </div>
+    <!-- Header -->
+    <header id="header">
+        <h1><a href="/home" style="font-family: 楷体,system-ui">墨 韵</a></h1>
+        <nav class="links">
+            <ul>
+                <li><a href="/home">主页</a></li>
+                <li><a href="/journalMenu">书评</a></li>
+                <li><a href="/bookMenu">书籍</a></li>
+                <li><a href="/groupMenu">圈子</a></li>
+                <li><a href="/message">消息</a></li>
+            </ul>
+        </nav>
+        <nav class="main">
+            <ul>
+                <li class="profile">
+                    <a class="image" href="/profile/{{ loginUser['id'] }}">
+                        <img src="{{ loginUser['profilePhoto'] }}" width="50%"
+                             style="margin-left: 25%;margin-top: 15%;border-radius: 50%;" alt="个人主页">
+                    </a>
+                </li>
+                <li class="search">
+                    <a class="fa-search" href="#search">Search</a>
+                    <form id="search" method="get" action="/search">
+                        <label>
+                            <input type="hidden" name="type" value="all">
+                            <input type="text" name="keyword" placeholder="搜索"/>
+                        </label>
+                    </form>
+                </li>
+                <li class="menu">
+                    <a class="fa-bars" href="#menu">Menu</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Menu -->
+    <section id="menu">
+        <!-- Links -->
+        <section>
+            <ul class="links">
+                <li>
+                    <h2>菜单</h2>
+                    <p>路漫漫其修远兮，吾将上下而求索</p>
+                </li>
+                <li>
+                    <a href="/editProfile">
+                        <h3>修改个人信息</h3>
+                        <p>完善个人信息，有助于你更快找到志趣相投的书友。</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/writeJournal"><h3>写书评</h3>
+                        <p>最近又看了什么新书？有什么感想？说出来吧。</p></a>
+                </li>
+                <li>
+                    <a href="/logout"><h3>退出账号</h3></a>
+                </li>
+            </ul>
+        </section>
+    </section>
+    <!-- Main -->
+    <div id="main">
+        <!-- Post -->
+        {% for item in results %}
+            {% if item['searchType']=='journal' %}
+                <article class="post">
+                    <header>
+                        <div class="title">
+                            <h2><a href="/journal/{{ item['id'] }}">{{ item['title'] }}</a></h2>
+                        </div>
+                        <div class="meta">
+                            <span class="published">{{ item['publishTime'].strftime('%Y-%m-%d') }}</span>
+                            <a href="/profile/{{ item['authorID'] }}" class="author">
+                                <span class="name">{{ loginUser['account'] }}</span>
+                            </a>
+                        </div>
+                    </header>
+                    <a href="/journal/{{ item['id'] }}" class="image featured">
+                        <img src="{{ item['header'] }}" alt="{{ item['title'] }}_头图"/>
+                    </a>
+                    <p>{{ item['firstParagraph'] }}</p>
+                    <p>结果类型：书评</p>
+                    <footer>
+                        <ul class="actions">
+                            <li><a href="/journal/{{ item['id'] }}" class="button large">阅读全文</a></li>
+                        </ul>
+                        <ul class="stats">
+                            <li><a href="/account/{{ loginUser['id'] }}">{{ loginUser['account'] }}</a></li>
+                            <li><i class="icon solid fa-heart">{{ item['likeNum'] }}</i></li>
+                            <li><i class="icon solid fa-comment">{{ item['commentNum'] }}</i></li>
+                        </ul>
+                    </footer>
+                </article>
+            {% elif item['searchType']=='book' %}
+                <article class="post">
+                    <header>
+                        <div class="title">
+                            <h2><a href="/book/{{ item['id'] }}">{{ item['title'] }}</a></h2>
+
+                            <p class="score" title="作者">
+                                <a href="https://book.douban.com/subject/{{ item['doubanID'] }}">作者：{{ item['author'] }}</a>
+                            </p>
+                        </div>
+                        <div class="meta">
+                            <a href="https://book.douban.com/subject/{{ item['doubanID'] }}">
+                                <img src="{{ item['bookCover'] }}" alt="{{ item['title'] }}_封面"
+                                     style="horiz-align: center;border-radius: 5%;height: 150px">
+                            </a>
+                        </div>
+                    </header>
+                    <span class="published">{{ item['publishDate'] }}</span>
+                    <p>{{ item['description'] }}</p>
+                    <p>结果类型：书籍</p>
+                    <footer>
+                        <ul class="actions">
+                            <li><a href="/book/{{ item['id'] }}" class="button large">查看详情</a></li>
+                        </ul>
+                        <ul class="stats">
+                            <li>
+                                <a href="https://book.douban.com/subject/{{ item['doubanID'] }}">豆瓣评分：{{ item['doubanScore'] }}</a>
+                            </li>
+                            <li><i class="icon solid fa-comment">{{ item['commentNum'] }}</i></li>
+                        </ul>
+                    </footer>
+                </article>
+            {% elif item['searchType']=="group" %}
+                <article class="post">
+                    <header>
+                        <div class="title">
+                            <h2><a href="/group/{{ item['id'] }}">{{ item['name'] }}</a></h2>
+                            <p class="score" title="创建者">
+                                <a href="/profile/{{ item['founderID'] }}">创建者：{{ item['founder'] }}</a>
+                            </p>
+                            <p>{{ item['description'] }}</p>
+
+                        </div>
+                        <div class="meta">
+                            <a href="/group/{{ item['id'] }}">
+                                <img src="{{ item['groupIcon'] }}" alt="{{ item['name'] }}_头像"
+                                     style="horiz-align: center;border-radius: 5%;height: 150px;width: 150px">
+                            </a>
+                        </div>
+                    </header>
+                    <span class="published">{{ item['publishDate'] }}</span>
+                    <p>{{ item['description'] }}</p>
+                    <p>结果类型：圈子</p>
+                </article>
+            {% elif item['searchType']=="user" %}
+                <article class="post">
+                    <header>
+                        <div class="title">
+                            <h2><a href="/profile/{{ item['id'] }}">{{ item['account'] }}</a></h2>
+                            <p>{{ item['signature'] }}</p>
+                        </div>
+                        <div class="meta">
+                            <a href="/profile/{{ item['id'] }}">
+                                <img src="{{ item['profilePhoto'] }}" alt="{{ item['account'] }}_头像"
+                                     style="horiz-align: center;border-radius: 5%;height: 150px;width: 150px">
+                            </a>
+                        </div>
+                    </header>
+                    <span class="published">身份：{{ item['role'] }}</span>
+                    <p>结果类型：用户</p>
+                </article>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Sidebar -->
+    <section id="sidebar">
+
+        <!-- Intro -->
+        <section id="intro">
+            <header>
+                <h2 style="font-family: 楷体,system-ui;">搜索</h2>
+                <p style="font-size: large">搜索类型：<i style="font-weight: bold">{{ searchType }}</i></p>
+                <p style="font-size: large">搜索内容：<i style="font-weight: bold">{{ keyword }}</i></p>
+                <p style="font-size: large">搜索用时：<i style="font-weight: bold">{{ costTime }}</i>秒</p>
+                <p style="font-size: large">搜索结果：<i style="font-weight: bold">{{ results | length }}</i>条相关结果
+                </p>
+            </header>
+        </section>
+
+
+        <!-- About -->
+        <section class="blurb">
+            <h2>关于</h2>
+            <p>墨韵是一个还在发展中的交流平台，您的宝贵意见将帮助我们更快进步。<br>您可通过以下方式与我们联系，感谢您的不吝指正。
+            </p>
+            <ul class="icons">
+                <li><a title="dreamzhl@mail.ynu.edu.cn" class="icon solid fa-envelope"></a></li>
+                <li><a href="https://github.com/Steven-Zhl/MoYun" class="icon brands fa-github"></a></li>
+            </ul>
+            <p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>. Images:
+                <a href="https://unsplash.com">Unsplash</a>.
+            </p>
+        </section>
+    </section>
+</div>
+
+<!-- Scripts -->
+<script src="../static/assets/home/js/jquery.min.js"></script>
+<script src="../static/assets/home/js/browser.min.js"></script>
+<script src="../static/assets/home/js/breakpoints.min.js"></script>
+<script src="../static/assets/home/js/util.js"></script>
+<script src="../static/assets/home/js/main.js"></script>
+
+</body>
+
+</html>
