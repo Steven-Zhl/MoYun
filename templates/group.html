@@ -66,7 +66,13 @@
             <ul class="links">
                 <li>
                     <h2>菜单</h2>
-                    <p>路漫漫其修远兮，吾将上下而求索</p>
+                    <p>路漫漫其修远兮，吾将上下而求索。</p>
+                </li>
+                <li>
+                    <a href="/home">
+                        <h3>主页</h3>
+                        <p>快速回到首页。</p>
+                    </a>
                 </li>
                 <li>
                     <a href="/editProfile">
@@ -75,8 +81,34 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/writeJournal"><h3>写书评</h3>
-                        <p>最近又看了什么新书？有什么感想？说出来吧。</p></a>
+                    <a href="/journalMenu">
+                        <h3>书评页</h3>
+                        <p>看看大家都在讨论什么吧。</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/writeJournal">
+                        <h3>写书评</h3>
+                        <p>最近又看了什么新书？有什么想法？说一说吧。</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/bookMenu">
+                        <h3>书籍页</h3>
+                        <p>书籍是人类进步的阶梯。</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/groupMenu">
+                        <h3>圈子</h3>
+                        <p>交流一下思想，或者单纯吹吹牛。</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/message">
+                        <h3>消息中心</h3>
+                        <p>今天也是风平浪静的一天呢。</p>
+                    </a>
                 </li>
                 <li>
                     <a href="/logout"><h3>退出账号</h3></a>
@@ -167,11 +199,15 @@
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/discussion/{{ reply['discussionID'] }}">{{ reply['account'] }}：{{ reply['content'] }}</a></h3>
+                                <h3>
+                                    <a href="/discussion/{{ reply['discussionID'] }}">{{ reply['account'] }}：{{ reply['content'] }}</a>
+                                </h3>
                                 <time class="published"
                                       datetime="2015-10-20">{{ reply['replyTime'].strftime('%Y-%m-%d %H:%M:%S') }}</time>
                             </header>
-                            <a href="/profile/{{ reply['authorID'] }}"><img src="{{ reply['profilePhoto'] }}" style="border-radius: 10%;margin: 10px" width="50px" height="50px" ></a>
+                            <a href="/profile/{{ reply['authorID'] }}"><img src="{{ reply['profilePhoto'] }}"
+                                                                            style="border-radius: 10%;margin: 10px"
+                                                                            width="50px" height="50px"></a>
                         </article>
                     </li>
                 {% endfor %}
