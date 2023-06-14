@@ -2,7 +2,7 @@
 
 > “墨韵”在线读书交流平台项目，是软件工程课程的大作业，也同样打算作为一个长期项目来维护。
 
-![Logo](./static/logo/logo_320x320_colorful.png)
+<img alt="Logo" src="./static/logo/logo_320x320_colorful.png" style="border-radius: 10%" width="100px" height="100px">
 
 ## 功能
 
@@ -58,8 +58,42 @@
 
 ## 后记
 
+* 这不是先前进行开发的仓库，因为先前的仓库中误提交了一些个人信息(个人邮箱、IP等)，所以重新开一个。
 * 由于时间和精力有限，有些软件设计说明书中的功能并未实现。比如添加书籍、圈子成员管理、私信等功能......该项目距离完善还有很长的路。
-* Flask的数据库连接有两种实现方式，
+* Flask的数据库连接有两种实现方式，大概如下所示：
+  1. 官方文档的实现方式
+
+  ```python
+  from sqlalchemy import create_engine
+  from sqlalchemy.orm import scoped_session, sessionmaker
+  from sqlalchemy.ext.declarative import declarative_base
+
+  engine = create_engine('sqlite:////tmp/test.db')
+  db_session = scoped_session(sessionmaker(autocommit=False,
+                                          autoflush=False,
+                                          bind=engine))
+  Base = declarative_base()
+  Base.query = db_session.query_property()
+
+  def init_db():
+      import yourapplication.models
+      Base.metadata.create_all(bind=engine)
+  ```
+
+  2. 本项目中的实现方式
+
+  ```python
+  from flask import Flask
+  from flask_sqlalchemy import SQLAlchemy
+
+  app = Flask(__name__)
+  db=SQLAlchemy(app)
+
+  class dataModel(db.Model)
+      pass
+  ```
+
+  * 建议使用第二种，因为第一种的可靠性非常差，前端错误甚至都能导致整个数据库会话崩溃，且崩溃后需要手动rollback，且报错信息几乎没有任何参考价值。相比之下第二种虽然难以拆分数据模型和数据库操作，但可靠性高，且易于调试。
 
 ## Reference
 
