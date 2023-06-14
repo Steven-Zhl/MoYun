@@ -1,17 +1,21 @@
 from datetime import datetime, timedelta
-
+import os
 import yaml
 
 
 def getConfig(category: str = None, key: str = None) -> dict or str or int:
     """
-    获取配置文件中的配置项
+    获取配置文件中的配置项(优先读取myConfig.yaml，若不存在则读取config.yaml)
     :param category: 配置项类别
     :param key: 配置项key
     :return:
     """
-    with open("config.yaml", "r", encoding="utf-8") as f:
-        config = yaml.load(f, Loader=yaml.FullLoader)
+    if os.path.exists(os.path.join(os.getcwd(), "myConfig.yaml")):
+        with open("myConfig.yaml", "r", encoding="utf-8") as f:
+            config = yaml.load(f, Loader=yaml.FullLoader)
+    else:
+        with open("config.yaml", "r", encoding="utf-8") as f:
+            config = yaml.load(f, Loader=yaml.FullLoader)
     if category is None or category not in config:
         return config
     else:

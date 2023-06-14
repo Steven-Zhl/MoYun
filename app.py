@@ -80,7 +80,7 @@ def register():
 def sendCaptcha():
     if request.method == "POST":
         account = request.form.get("account")
-        user = db.getUser(account)
+        user = db.getUserByAccount(account)
         if not user:
             flash("用户名不存在，请先注册", "info")
             return redirect(url_for("index") + "#register")

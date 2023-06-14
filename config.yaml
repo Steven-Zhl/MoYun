@@ -39,6 +39,7 @@ Path:
   TemplateFolder: "/templates" # 模板文件夹
   StaticFolder: "/static" # 静态资源文件夹
   StoragePath: "/static" # 存储文件夹，默认与静态资源共用同一个文件夹
+
 # API配置
 YiketianqiAPI:
   version: "v61"

@@ -72,7 +72,7 @@ class Database:
         :return:
         """
         user = User.query.filter_by(account=account).first()
-        user._password = generate_password_hash(password)
+        user.password = generate_password_hash(password)
         self.db.session.commit()
 
     @staticmethod
