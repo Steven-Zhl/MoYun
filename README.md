@@ -46,14 +46,52 @@
 * 部署路径请全英文，但数据库中的内容允许中文、其他语言甚至Unicode表情。
 * `/home`页面使用了2个免费API：[今日诗词](https://www.jinrishici.com/)
   和[一刻天气](https://tianqiapi.com/index/doc?version=v61)
-  * 一刻天气可免费试用2000次，需要注册账号后申请，申请后请在`config.yaml`中配置相关参数以使用；
+  * 一刻天气可免费试用2000次，需要注册账号后申请，申请后请在配置文件中设置相关参数以使用；
     * 另外，该API通过IP来判断城市，仅限大陆地区，对于其他地区IP则显示北京天气；但我们租用的Azure服务器架设在香港，您如果通过代理访问的话通常只会显示北京的天气。
   * 今日诗词无需申请key，但每秒只能访问1次。
 
 ## 后记
 
 * 由于时间和精力有限，有些软件设计说明书中的功能并未实现。比如添加书籍、圈子成员管理、私信等功能......该项目距离完善还有很长的路。
-* Flask的数据库连接有两种实现方式，
+* Flask的数据库连接有两种实现方式：
+  1. 本项目的方式
+  ```python
+  from flask import Flask
+  from flask_sqlalchemy import SQLAlchemy
+  
+  app = Flask(__name__)
+  db = SQLAlchemy(app)
+  
+  class DataModel(db.Model):
+    pass
+  ```
+  2. 文档中的方式
+  ```python
+  from sqlalchemy import create_engine
+  from sqlalchemy.orm import scoped_session, sessionmaker
+  from sqlalchemy.ext.declarative import declarative_base
+  from sqlalchemy import Column, Integer, String
+  
+  engine = create_engine('sqlite:////tmp/test.db')
+  db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+  Base = declarative_base()
+  Base.query = db_session.query_property()
+  Base.metadata.create_all(bind=engine)
+  
+  class DataModel(Base):
+      __tablename__ = 'users'
+      id = Column(Integer, primary_key=True)
+      name = Column(String(50), unique=True)
+      email = Column(String(120), unique=True)
+  
+      def __init__(self, name=None, email=None):
+          self.name = name
+          self.email = email
+  
+      def __repr__(self):
+          return f'<User {self.name!r}>'
+  ```
+  * 建议使用第1种，因为第2种不仅可靠性差(前端问题会直接造成服务器会话崩掉)，而且报错信息几乎没有参考价值，相比之下第1种就没有这些问题。
 
 ## Reference
 
