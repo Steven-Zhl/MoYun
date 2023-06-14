@@ -1,6 +1,6 @@
 # MoYun
 
-> “墨韵”在线读书交流平台项目，是软件工程课程的大作业，也同样打算作为一个长期的个人项目来维护。
+> “墨韵”在线读书交流平台项目，是软件工程课程的大作业，也同样打算作为一个长期项目来维护。
 
 ## 功能
 
@@ -20,14 +20,18 @@
 
 * git clone整个项目
 * 安装依赖
+
   ```shell
   pip install -r requirements.txt
   ```
+
 * 按照自身情况修改[`config.yaml`](/config.yaml)(建议将其拷贝一份为`myConfig.yaml`，并在这个文件中修改配置)
 * 执行[`init_db.py`](/init_db.py)脚本，初始化数据库
+
   ```shell
   python init_db.py
   ```
+
 * 执行`app.py`，运行主程序：
   * `python app.py`(常规执行)
   * `nohup python app.py`(仅限Linux，通过SSH远程启动服务器的服务时，使用这种方式可以在断开SSH连接后继续运行)
@@ -52,9 +56,11 @@
 
 ## 后记
 
+* 由于先前的库包括了一些个人信息(个人邮箱、IP)等，因此我将其删除了，剔除了敏感信息后创建了本仓库，所以提交记录比较少。
 * 由于时间和精力有限，有些软件设计说明书中的功能并未实现。比如添加书籍、圈子成员管理、私信等功能......该项目距离完善还有很长的路。
 * Flask的数据库连接有两种实现方式：
   1. 本项目的方式
+
   ```python
   from flask import Flask
   from flask_sqlalchemy import SQLAlchemy
@@ -65,7 +71,9 @@
   class DataModel(db.Model):
     pass
   ```
+
   2. 文档中的方式
+
   ```python
   from sqlalchemy import create_engine
   from sqlalchemy.orm import scoped_session, sessionmaker
@@ -91,6 +99,7 @@
       def __repr__(self):
           return f'<User {self.name!r}>'
   ```
+
   * 建议使用第1种，因为第2种不仅可靠性差(前端问题会直接造成服务器会话崩掉)，而且报错信息几乎没有参考价值，相比之下第1种就没有这些问题。
 
 ## Reference
