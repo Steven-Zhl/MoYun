@@ -1,6 +1,8 @@
 # MoYun
 
-> “墨韵”在线读书交流平台项目，是软件工程课程的大作业，也同样打算作为一个长期的个人项目来维护。
+> “墨韵”在线读书交流平台项目，是软件工程课程的大作业，也同样打算作为一个长期项目来维护。
+
+![Logo](./static/logo/logo_320x320_colorful.png)
 
 ## 功能
 
@@ -20,14 +22,18 @@
 
 * git clone整个项目
 * 安装依赖
+
   ```shell
   pip install -r requirements.txt
   ```
-* 按照自身情况修改[`config.yaml`](/config.yaml)中的配置
-* 执行[`init_db.py`](/init_db.py)脚本，初始化数据库
+
+* 按照自身情况修改[`config.yaml`](./config.yaml)中的配置
+* 执行[`init_db.py`](./init_db.py)脚本，初始化数据库
+
   ```shell
   python init_db.py
   ```
+
 * 执行`app.py`，运行主程序：
   * `python app.py`(常规执行)
   * `nohup python app.py`(仅限Linux，通过SSH远程启动服务器的服务时，使用这种方式可以在断开SSH连接后继续运行)
