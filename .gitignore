@@ -153,3 +153,4 @@ cython_debug/
 # 个人配置文件
 myConfig.yaml
 
+/static/

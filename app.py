@@ -210,14 +210,14 @@ def createJournal():
         title = request.form.get("title")
         content = request.form.get("content").split('\r\n')
         publishTime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        authorID = session.get("loginID")
+        authorID = session.get("loginUser")["id"]
         bookID = int(request.form.get("bookID"))
         journalID = db.addJournal(title, content, publishTime, authorID, bookID)
         if journalHeader:  # 处理书评封面
             targetPath = fileMgr.generateJournalHeaderPath(journalID, abs=True)
             journalHeader.save(targetPath)
             Img.cropImageByScale(targetPath, 5, 2)  # 裁剪为'5：2'图片
-            flash("发表成功", "success")
+        flash("发表成功", "success")
         return redirect(url_for("journal", journalID=journalID))  # 返回到新书评页
 
 
