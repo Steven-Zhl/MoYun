@@ -1,8 +1,16 @@
 # MoYun
 
-> “墨韵”在线读书交流平台项目，是软件工程课程的大作业，也同样打算作为一个长期项目来维护。
+> “墨韵”在线读书交流平台项目，软件工程大作业。
 
-## 功能
+## Contributors
+
+<a href="https://github.com/Aut0matas" alt="Aut0matas"><img src="https://avatars.githubusercontent.com/u/43371529?v=4" style="width: 64px; height: 64px;"/></a>
+<a href="https://github.com/ShirokaneShizuku" alt="ShirokaneShizuku"><img src="https://avatars.githubusercontent.com/u/102428923?v=4" style="width: 64px; height: 64px;"/></a>
+<a href="https://github.com/YukiShionji" alt="YukiShionji"><img src="https://avatars.githubusercontent.com/u/80265989?v=4" style="width: 64px; height: 64px;"/></a>
+<a href="https://github.com/wanlan5201314" alt="wanlan5201314"><img src="https://avatars.githubusercontent.com/u/112745268?v=4" style="width: 64px; height: 64px;"/></a>
+<a href="https://github.com/Steven-Zhl" alt="Steven-Zhl"><img src="https://avatars.githubusercontent.com/u/80385790?v=4" style="width: 64px; height: 64px;"/></a>
+
+## 基本功能
 
 * 账号管理：注册、登录、登出、找回密码(需要配置邮箱服务)、修改个人信息、查看他人信息
 * 书评：写书评、书评点赞、书评回复、书评搜索
@@ -39,7 +47,7 @@
 
 ### 运行环境
 
-> 该项目在Windows 11 专业版 22H2和Ubuntu 20.04 LTS上测试通过。
+> 该项目在`Windows 11 Professional 22H2`和`Ubuntu Server 20.04 LTS`上测试通过，软件版本如下。
 
 * Python 3.11.3
 * Flask 2.0.2
@@ -120,3 +128,4 @@
 * [Flask 教程_w3cschool](https://www.w3cschool.cn/flask/)
 * [CSS：层叠样式表 | MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS)
 * [HTTP 响应状态码 - HTTP | MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status)
+* [AJAX | 菜鸟教程](https://www.runoob.com/ajax/ajax-tutorial.html)
